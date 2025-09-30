@@ -95,8 +95,11 @@ class GeneralInviteAssets:
 	I_BACK_YELLOW_SEA = RuleImage(roi_front=(31,16,42,42), roi_back=(31,16,42,42), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralInvite/gi/gi_back_yellow_sea.png")
 	# 识别到寄养邀请 
 	I_I_ACCEPT_JY = RuleImage(roi_front=(248,258,46,25), roi_back=(231,205,75,326), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralInvite/gi/gi_i_accept_jy.png")
+<<<<<<< HEAD
 	# 队伍不存在 
 	I_N_TEAM_E = RuleImage(roi_front=(572,220,135,40), roi_back=(522,185,266,105), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralInvite/gi/gi_n_team_e.png")
+=======
+>>>>>>> e322b24 (feat(BondlingFairyland): 更新契灵之境 单人组队都支持，不支持探查和首领)
 
 
 	# Image Rule Assets

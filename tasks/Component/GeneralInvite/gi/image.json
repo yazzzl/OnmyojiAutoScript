@@ -376,6 +376,7 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "识别到寄养邀请"
+<<<<<<< HEAD
   },
   {
     "itemName": "n_team_e",
@@ -385,5 +386,7 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "队伍不存在"
+=======
+>>>>>>> e322b24 (feat(BondlingFairyland): 更新契灵之境 单人组队都支持，不支持探查和首领)
   }
 ]
