@@ -1,6 +1,7 @@
 # This Python file uses the following encoding: utf-8
 # @author runhey
 # github https://github.com/runhey
+from tasks.MonsterSeal.config import MonsterSeal
 from typing import Dict, Any
 
 import re
@@ -144,6 +145,9 @@ class ConfigModel(ConfigBase):
     abyss_shadows: AbyssShadows = Field(default_factory=AbyssShadows)
     guild_banquet: GuildBanquet = Field(default_factory=GuildBanquet)
     demon_retreat: DemonRetreat = Field(default_factory=DemonRetreat)
+
+    # 妖气封印的
+    monster_seal : MonsterSeal = Field(default_factory=MonsterSeal);
 
     def __init__(self, config_name: str=None) -> None:
         """

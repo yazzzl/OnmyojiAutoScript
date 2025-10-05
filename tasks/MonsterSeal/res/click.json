@@ -1,0 +1,20 @@
+[
+  {
+    "itemName": "zddj",
+    "roiFront": "699,597,176,59",
+    "roiBack": "698,595,180,63",
+    "description": "description"
+  },
+  {
+    "itemName": "zdzb",
+    "roiFront": "610,30,144,50",
+    "roiBack": "610,29,147,53",
+    "description": "自动准备"
+  },
+  {
+    "itemName": "qxzdzb",
+    "roiFront": "612,33,144,49",
+    "roiBack": "610,32,145,52",
+    "description": "取消自动准备"
+  }
+]

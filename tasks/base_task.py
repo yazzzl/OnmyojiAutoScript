@@ -467,6 +467,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
         :param name:
         :return:
         """
+        logger.warning(target)
         if target.is_image:
             while True:
                 self.screenshot()
@@ -474,12 +475,14 @@ class BaseTask(GlobalGameAssets, CostumeBase):
                 if result is not None:
                     return result
                 x1, y1, x2, y2 = target.swipe_pos()
+                logger.info( [x1, y1, x2, y2])
                 self.device.swipe(p1=(x1, y1), p2=(x2, y2))
 
         elif target.is_ocr:
             while True:
                 self.screenshot()
                 result = target.ocr_appear(self.device.image, name=name)
+                logger.error(["result:",result])
                 if isinstance(result, tuple):
                     return result
 

@@ -1,0 +1,101 @@
+[
+  {
+    "itemName": "check_list",
+    "roiFront": "395,182,193,384",
+    "roiBack": "393,181,198,390",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "检查是否在列表页"
+  },
+  {
+    "itemName": "all",
+    "roiFront": "462,202,57,35",
+    "roiBack": "402,191,180,53",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "ttgg",
+    "roiFront": "432,267,119,40",
+    "roiBack": "402,259,172,54",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "jt",
+    "roiFront": "459,334,64,40",
+    "roiBack": "401,326,179,54",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "gv",
+    "roiFront": "460,402,64,36",
+    "roiBack": "399,394,180,53",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "eg",
+    "roiFront": "457,469,71,40",
+    "roiBack": "401,461,180,55",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "ekn",
+    "roiFront": "445,242,95,43",
+    "roiBack": "402,237,172,54",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "hfz",
+    "roiFront": "445,314,90,35",
+    "roiBack": "397,303,185,54",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "gsh",
+    "roiFront": "443,377,97,43",
+    "roiBack": "401,372,178,55",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "xsw",
+    "roiFront": "445,445,91,43",
+    "roiBack": "397,438,184,56",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  },
+  {
+    "itemName": "rhf",
+    "roiFront": "447,517,88,34",
+    "roiBack": "402,506,176,56",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "Ocr-description"
+  }
+]
