@@ -65,7 +65,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, MonsterSealA
             self.screenshot()
             # 选过之后不需要二次再选
             if self.appear(current.get("i")):
-                logger.info("检测到在鬼使黑里")
+                logger.info(f'检测到在{current.get("i")}里')
                 break
             # 检测是否在妖气封印里面
             if self.appear(self.I_YQFY):
