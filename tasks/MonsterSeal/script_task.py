@@ -22,6 +22,7 @@ from tasks.Component.GeneralBuff.config_buff import BuffClass
 from module.exception import TaskEnd
 from module.logger import logger
 from module.base.timer import Timer
+from tasks.MonsterSeal.config import Monster
 from typing import Union
 
 
@@ -29,32 +30,53 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, MonsterSealA
 
     def run(self) -> None:
 
-        con = self.config.monster_seal.monster_config
+        con = self.config.monster_seal
+        monster = con.monster_config
         logger.info(con)
-        monster_list= ['全部' ,'跳跳哥哥', '椒图', '骨女', '饿鬼', '二口女',"海坊主", '小松丸', '日和坊'];
+
+        current = {}
+        match monster.monster_current:
+            case Monster.M_TTGG:
+                current ={"i":self.I_TTGG, "o":self.O_TTGG,'n':'跳跳哥哥'}
+            case Monster.M_JT:
+                current ={"i":self.I_JT, "o":self.O_JT,'n':'椒图'}
+            case Monster.M_GN:
+                current ={"i":self.I_GN, "o":self.O_GN,'n':'骨女'}
+            case Monster.M_EG:
+                current ={"i":self.I_EG, "o":self.O_EG,'n':'饿鬼'}
+            case Monster.M_EKN:
+                current ={"i":self.I_EKN, "o":self.O_EKN,'n':'二口女'}
+            case Monster.M_HFZ:
+                current ={"i":self.I_HFZ, "o":self.O_HFZ,'n':'海坊主'}
+            case Monster.M_XSW:
+                current ={"i":self.I_XSW, "o":self.O_XSW,'n':'小松丸'}
+            case Monster.M_GSH:
+                current ={"i":self.I_GSH, "o":self.O_GSH,'n':'鬼使黑'}
+            case Monster.M_RHF:
+                current ={"i":self.I_RHF, "o":self.O_RHF,'n':'日和坊'}
+
 
         self.ui_get_current_page()
         # 进入组队页面
         self.ui_goto(page_team)
         # 进入组队后 有可能已经选了妖怪封印  要判断妖怪列表是否存在
-
-
+        logger.info(current)
         while 1:
             self.screenshot()
             # 选过之后不需要二次再选
-            if self.appear(self.I_GSH):
+            if self.appear(current.get("i")):
                 logger.info("检测到在鬼使黑里")
                 break
             # 检测是否在妖气封印里面
             if self.appear(self.I_YQFY):
-                logger.info("检测到在妖气封印里面")
+                logger.info(["检测到在妖气封印里面",])
                 while 1:
                     self.screenshot()
-                    if self.check_monster('鬼使黑'):
+                    if self.check_monster(current.get("n"),current):
                         break
                 break
             # 什么都没进
-            if self.check_zones("妖气封印") and self.check_monster('鬼使黑') :
+            if self.check_zones("妖气封印") and self.check_monster(current.get("n"),current) :
                 logger.info("选择妖气封印，并选择妖怪")
                 break
 
@@ -145,10 +167,11 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, MonsterSealA
         conf = GeneralBattleConfig()
         return conf
 
-    def check_monster(self, name: str) -> bool:
+    def check_monster(self, name: str,current: dict) -> bool:
         """
         确认妖气的名字，并选中
         :param name:
+        :param current:
         :return:
         """
         last_group_text = ''
@@ -164,11 +187,11 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, MonsterSealA
 
         while 1:
             self.screenshot()
-            # 获取当前分组名
+            # 获取的列表
             results = self.O_CHECK_LIST.detect_and_ocr(self.device.image)
             logger.info(results)
             text1 = [result.ocr_text for result in results]
-            # 判断当前分组有无目标分组
+            # 判断当前有无目标
             result = set(text1).intersection({name})
             # 有则跳出检测
             if result and len(result) > 0:
@@ -179,12 +202,13 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, MonsterSealA
         logger.info(f'开始找名字 {name}')
 
         self.O_CHECK_LIST.keyword = name
+        monster = ["跳跳哥哥", "椒图", "骨女", "饿鬼", "二口女", "海坊主", "鬼使黑", "小松丸", "日和坊",'俄鬼']
         while 1:
             self.screenshot()
-            name = self.O_GSH.ocr(self.device.image)
-            if  '使黑' in name:
-                self.O_GSH.keyword = name
-            pos =  self.ocr_appear_click(self.O_GSH)
+            name = current.get('o').ocr(self.device.image)
+            if  name in monster:
+                current.get('o').keyword = name
+            pos =  self.ocr_appear_click(current.get('o'))
             if pos:
                 break
             logger.info(f' 结果 {pos}')

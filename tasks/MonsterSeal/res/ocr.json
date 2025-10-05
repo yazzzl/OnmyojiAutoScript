@@ -36,7 +36,7 @@
     "description": "Ocr-description"
   },
   {
-    "itemName": "gv",
+    "itemName": "gn",
     "roiFront": "460,402,64,36",
     "roiBack": "399,394,180,53",
     "mode": "Single",

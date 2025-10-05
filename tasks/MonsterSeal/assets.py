@@ -64,7 +64,7 @@ class MonsterSealAssets:
 	# Ocr-description 
 	O_JT = RuleOcr(roi=(459,334,64,40), area=(401,326,179,54), mode="Single", method="Default", keyword="", name="jt")
 	# Ocr-description 
-	O_GV = RuleOcr(roi=(460,402,64,36), area=(399,394,180,53), mode="Single", method="Default", keyword="", name="gv")
+	O_GN = RuleOcr(roi=(460,402,64,36), area=(399,394,180,53), mode="Single", method="Default", keyword="", name="gn")
 	# Ocr-description 
 	O_EG = RuleOcr(roi=(457,469,71,40), area=(401,461,180,55), mode="Single", method="Default", keyword="", name="eg")
 	# Ocr-description 
