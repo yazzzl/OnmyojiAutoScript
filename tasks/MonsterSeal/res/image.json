@@ -1,0 +1,119 @@
+[
+  {
+    "itemName": "auto_matching",
+    "imageName": "res_auto_matching.png",
+    "roiFront": "698,598,180,64",
+    "roiBack": "698,598,180,64",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "自动匹配"
+  },
+  {
+    "itemName": "m_check",
+    "imageName": "res_m_check.png",
+    "roiFront": "793,278,242,246",
+    "roiBack": "793,279,242,246",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "判断是否在年的界面"
+  },
+  {
+    "itemName": "ttgg",
+    "imageName": "res_ttgg.png",
+    "roiFront": "544,131,116,45",
+    "roiBack": "538,114,144,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "跳跳哥哥"
+  },
+  {
+    "itemName": "jt",
+    "imageName": "res_jt.png",
+    "roiFront": "541,131,87,45",
+    "roiBack": "536,116,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "椒图"
+  },
+  {
+    "itemName": "gn",
+    "imageName": "res_gn.png",
+    "roiFront": "544,131,87,45",
+    "roiBack": "538,114,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "骨女"
+  },
+  {
+    "itemName": "eg",
+    "imageName": "res_eg.png",
+    "roiFront": "544,131,70,45",
+    "roiBack": "538,114,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "饿鬼"
+  },
+  {
+    "itemName": "ekn",
+    "imageName": "res_ekn.png",
+    "roiFront": "544,131,87,45",
+    "roiBack": "538,114,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "二口女"
+  },
+  {
+    "itemName": "hfz",
+    "imageName": "res_hfz.png",
+    "roiFront": "544,131,87,45",
+    "roiBack": "538,114,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "海坊主"
+  },
+  {
+    "itemName": "gsh",
+    "imageName": "res_gsh.png",
+    "roiFront": "544,131,87,45",
+    "roiBack": "538,114,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "鬼使黑"
+  },
+  {
+    "itemName": "xsw",
+    "imageName": "res_xsw.png",
+    "roiFront": "544,131,87,45",
+    "roiBack": "538,114,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "小松丸"
+  },
+  {
+    "itemName": "rhf",
+    "imageName": "res_rhf.png",
+    "roiFront": "544,131,87,45",
+    "roiBack": "538,114,96,72",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "日和坊"
+  },
+  {
+    "itemName": "yqfy",
+    "imageName": "res_yqfy.png",
+    "roiFront": "383,109,160,50",
+    "roiBack": "409,125,162,51",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "description"
+  },
+  {
+    "itemName": "wait",
+    "imageName": "res_wait.png",
+    "roiFront": "759,20,72,67",
+    "roiBack": "748,8,100,100",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "description"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "itemName": "up",
+    "roiFront": "396,456,190,65",
+    "roiBack": "392,251,197,71",
+    "mode": "default",
+    "description": "description"
+  },
+  {
+    "itemName": "down",
+    "roiFront": "395,254,190,63",
+    "roiBack": "393,457,194,65",
+    "mode": "default",
+    "description": "description"
+  }
+]

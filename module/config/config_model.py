@@ -15,6 +15,7 @@ from module.logger import logger
 # 导入配置的Python文件
 from tasks.Component.config_base import ConfigBase, TimeDelta
 from tasks.Exploration.config import Exploration
+from tasks.MonsterSeal.config import MonsterSeal
 from tasks.RyouToppa.config import RyouToppa
 from tasks.Dokan.config import Dokan
 from tasks.Script.config import Script
@@ -128,6 +129,7 @@ class ConfigModel(ConfigBase):
     hero_test: HeroTest = Field(default_factory=HeroTest)
     find_jade: FindJade = Field(default_factory=FindJade)
     memory_scrolls: MemoryScrolls = Field(default_factory=MemoryScrolls)
+    monster_seal: MonsterSeal = Field(default_factory=MonsterSeal)
 
     # 这些是每周任务
     true_orochi: TrueOrochi = Field(default_factory=TrueOrochi)

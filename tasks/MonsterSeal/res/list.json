@@ -1,0 +1,45 @@
+{
+  "name": "name",
+  "direction": "vertical",
+  "type": "ocr",
+  "roiBack": "427,191,121,369",
+  "description": "妖气封印",
+  "list": [
+    {
+      "itemName": "跳跳哥哥",
+      "roiFront": "430,253,117,64"
+    },
+    {
+      "itemName": "椒图",
+      "roiFront": "442,319,100,68"
+    },
+    {
+      "itemName": "骨女",
+      "roiFront": "457,390,67,62"
+    },
+    {
+      "itemName": "饿鬼",
+      "roiFront": "459,456,65,63"
+    },
+    {
+      "itemName": "二口女",
+      "roiFront": "439,229,100,70"
+    },
+    {
+      "itemName": "海坊主",
+      "roiFront": "442,299,100,63"
+    },
+    {
+      "itemName": "鬼使黑",
+      "roiFront": "440,367,100,63"
+    },
+    {
+      "itemName": "小松丸",
+      "roiFront": "440,435,100,62"
+    },
+    {
+      "itemName": "日和坊",
+      "roiFront": "439,501,100,68"
+    }
+  ]
+}
