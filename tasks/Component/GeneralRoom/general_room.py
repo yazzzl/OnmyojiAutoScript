@@ -14,7 +14,7 @@ from module.atom.image import RuleImage
 from tasks.base_task import BaseTask
 from module.logger import logger
 from module.base.timer import Timer
-
+from difflib import SequenceMatcher
 
 class GeneralRoom(BaseTask, GeneralRoomAssets):
 
@@ -114,6 +114,9 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
                 if self.appear_then_click(self.I_GR_BACK_YELLOW, interval=0.5):
                     continue
 
+
+
+
     def check_zones(self, name: str) -> bool:
         """
         确认副本的名称，并选中
@@ -123,8 +126,8 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
         pos = self.list_find(self.L_TEAM_LIST, name)
         if not pos:
             return False
-        if name == '愤怒的石距' or name == '喷怒的石距':
-            name = '价悠的石距'
+
+        find_name = ['愤怒的石距','喷怒的石距','价悠的石距','石距','封印','金币','经验',"妖气","年兽"]
         self.O_GR_ZONES_NAME.keyword = name
         click_timer = Timer(1.1)
         click_timer.start()
@@ -136,9 +139,13 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
             # https://github.com/runhey/OnmyojiAutoScript/issues/488
             # 只能说朴实无华
             text_ocr = self.O_GR_ZONES_NAME.ocr(self.device.image)
-            if name == '石距' and name in text_ocr:
-                break
-            if name == '金币妖怪' and "金币" in text_ocr:
+            # if name == '石距' and name in text_ocr:
+            #     break
+            # if name == '金币妖怪' and "金币" in text_ocr:
+            #     break
+            logger.warning([name, text_ocr,SequenceMatcher(None, name, text_ocr).ratio()])
+
+            if SequenceMatcher(None, name, text_ocr).ratio() > 0.75 or [s for s in find_name if s in name and s in text_ocr]:
                 break
             if click_timer.reached():
                 click_timer.reset()

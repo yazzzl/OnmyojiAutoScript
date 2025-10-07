@@ -34,7 +34,7 @@ class ConfigMenu:
             "HeroTest",
             "FindJade",
             "MemoryScrolls",
-            'MonsterSeal'
+            'DemonSeal'
         ]
         # 阴阳寮
         self.menu["Guild"] = ['KekkaiUtilize', 'KekkaiActivation', 'RealmRaid', 'RyouToppa', 'Dokan', 'CollectiveMissions',
