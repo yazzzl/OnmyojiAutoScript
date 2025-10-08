@@ -95,6 +95,8 @@ class GeneralInviteAssets:
 	I_BACK_YELLOW_SEA = RuleImage(roi_front=(31,16,42,42), roi_back=(31,16,42,42), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralInvite/gi/gi_back_yellow_sea.png")
 	# 识别到寄养邀请 
 	I_I_ACCEPT_JY = RuleImage(roi_front=(248,258,46,25), roi_back=(231,205,75,326), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralInvite/gi/gi_i_accept_jy.png")
+	# 队伍不存在 
+	I_N_TEAM_E = RuleImage(roi_front=(572,220,135,40), roi_back=(522,185,266,105), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralInvite/gi/gi_n_team_e.png")
 
 
 	# Image Rule Assets
@@ -127,5 +129,7 @@ class GeneralInviteAssets:
 	O_FRIEND_NAME_2 = RuleOcr(roi=(729,184,196,346), area=(729,184,196,346), mode="Full", method="Default", keyword="", name="friend_name_2")
 	# Ocr-description 
 	O_ONLINE = RuleOcr(roi=(790,102,124,42), area=(0,0,100,100), mode="Single", method="Default", keyword="", name="online")
+	# 队伍不存在 
+	O_N_TEAM_E = RuleOcr(roi=(569,219,141,39), area=(569,219,141,39), mode="Single", method="Default", keyword="", name="n_team_e")
 
 

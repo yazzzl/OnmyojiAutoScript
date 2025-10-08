@@ -3,6 +3,7 @@
 # github https://github.com/runhey
 from time import sleep
 
+import random
 import re
 from datetime import timedelta, datetime, time
 from cached_property import cached_property
@@ -24,7 +25,7 @@ from module.logger import logger
 from module.base.timer import Timer
 from tasks.DemonSeal.config import Demon
 from typing import Union
-
+from tasks.Component.config_base import ConfigBase ,DateTime
 
 class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAssets):
 
@@ -32,19 +33,22 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
         logger.hr('DemonSeal')
         con = self.config.demon_seal.demon_config
 
-        last_run : datetime = con.last_run
+        last_run :DateTime = con.last_run
         new = datetime.now()
         count = con.today_count
-        con.last_run = new
+        con.last_run =  DateTime.fromisoformat(new.strftime("%Y-%m-%d %H:%M:%S"))
 
         if count >=con.target:
             # 如果满了就改到明天
-            self.set_next_run(task='DemonSeal',target=(last_run + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0))
+            self.set_next_run(task='DemonSeal',target=  DateTime.fromisoformat( (new + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")), finish=False)
         # 判断上次执行是不是今天 是则计数，不是则重置
-        if last_run.date() == new.date():
-            con.target +=1;
-        else:
-            con.target = 0;
+        if last_run.date() != new.date():
+            con.today_count = 0
+
+
+
+        if con.demon_current == Demon.M_RANDOM:
+            con.demon_current = random.choice(list(Demon))
 
         current = {}
         match con.demon_current:
@@ -67,22 +71,29 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
             case Demon.M_RHF:
                 current ={"i":self.I_RHF, "o":self.O_RHF,'n':'日和坊'}
 
-        leave_count = 0;
+
+        leave_count = 0
         while 1:
             self.screenshot()
+            # 做一个选择之前的判断  需要让流程正常执行
             if not self.is_in_battle(True):
+                # 如果还没任何操作 就已经有了等待匹配的时候先退出匹配
+                self.appear_then_click(self.I_WAIT)
+                # 然后进入组队页面
                 self.ui_get_current_page()
                 self.ui_goto(page_team)
                 break
             else:
-                # 如果在战斗中给一个缓冲的时间
+                # 如果在战斗中给一个缓冲的时间,如果一直在战斗则让任务跳过
                 leave_count += 1
                 if leave_count > 15:
                     self.ui_get_current_page()
                     self.ui_goto(page_main)
+                    self.set_next_run(task='DemonSeal', finish=False,success=False)
+
 
         # 进入组队后 有可能已经选了妖怪封印  要判断妖怪列表是否存在
-
+        # 下面的逻辑流程是  打开列表-》如果已经在选择的妖怪就直接匹配 -》 如果没有妖怪但是在妖气封印里面，就去选妖怪 -》 如果都没有 则按流程来
         while 1:
             self.screenshot()
             # 选过之后不需要二次再选
@@ -103,68 +114,87 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
                 break
 
 
-        count = 0
 
+        # 给一个判断的cd 实际上是无所谓的，给一些机器老的一些空间
+        cd_count = 0
         while 1:
             self.screenshot()
             if self.appear(self.I_WAIT) :
                 break
             if self.appear_then_click(self.I_GR_AUTO_MATCH, interval=1.5):
                 logger.info('点击自动匹配')
-                count += 1
+                cd_count += 1
                 continue
-            if count > 4:
+            if cd_count > 4:
                 logger.info('匹配超时')
                 break
 
-        # # 匹配个8分钟，要是八分钟还没人拿没啥了
-        # logger.info('Waiting for match')
+        # 战斗时间
         click_timer = Timer(240)
-
-        check_timer = Timer(480)
         click_timer.start()
+        # 超时验证是否完全退出
+        check_timer = Timer(240)
         check_timer.start()
         self.device.stuck_record_add('BATTLE_STATUS_S')
 
         # 判断是否战斗过
         battle = False
-        accept_count = 0;
+        accept_count = 0
         while 1:
             self.screenshot()
             # 如果被秒开进入战斗, 被秒开不支持开启buff
 
-            accept =  self.check_then_accept()
+            accept = self.check_then_accept()
+            if battle:
+                # 判断是否出现队伍不存在 还有一个队伍已满的情况等截图
 
-            if accept_count == 0:
-                logger.info(['匹配中',accept_count])
-            else:
-                logger.info(['等待邀请中',accept_count,battle])
+                if self.appear(self.I_N_TEAM_E) :
+                    self.config.save()
+                    self.set_next_run(task='DemonSeal', finish=False, success=True)
+                    break
+
+
             # 战斗过 用来判断是不是没战斗了
 
             # 如果被邀请就继续
             if accept:
+                accept_count = 1
                 battle = False
+
+                # 如果被邀请过 但是没有战斗过
+                if not self.appear(self.I_M_CHECK):
+                    break
                 continue
             else:
                 # 如果没有邀请但是战斗过 则计数 如果10s后 没有战斗过 就结束
                 if battle:
-                    accept_count += 1;
-                    if accept_count > 10:
+                    accept_count += 1
+                    if accept_count > 15:
                         logger.info('Match timeout')
+                        if not self.appear(self.I_WAIT):
+                            self.config.save()
+                            self.set_next_run(task='DemonSeal', finish=False, success=True)
+                            break
                         break
+
 
 
             if self.check_take_over_battle(False, config=self.battle_config):
                 logger.info('二次战斗')
                 # 进入了战斗，并重置倒计时
                 battle = True
-                accept_count = 1;
+                accept_count = 1
+                con.today_count += 1
 
             # 如果进入房间
             elif self.is_in_room():
                 logger.info('开始战斗')
+
+                click_timer.clear()
+                check_timer.clear()
                 battle = True
-                accept_count = 1;
+                accept_count = 1
+                con.today_count += 1
                 self.device.stuck_record_clear()
                 if self.wait_battle(wait_time=time(minute=1)):
                     self.run_general_battle(config=self.battle_config)
@@ -193,17 +223,14 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
                         continue
                     if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=1):
                         continue
-                    if self.appear_then_click(self.I_M_CHECK, interval=1):
-                        continue
                 logger.info('DemonSeal match timeout, exit')
                 break
-            # 如果还在匹配中
-            if self.appear(self.I_WAIT):
-                continue
+            # 如果没有匹配则退出任务
+
         self.config.save()
         # 退出结束
         logger.hr('DemonSeal')
-        self.set_next_run(task='DemonSeal', success=True, finish=False)
+        self.set_next_run(task='DemonSeal', success=True, finish=True)
         raise TaskEnd('DemonSeal')
 
 

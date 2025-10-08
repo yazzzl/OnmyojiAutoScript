@@ -376,5 +376,14 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "识别到寄养邀请"
+  },
+  {
+    "itemName": "n_team_e",
+    "imageName": "gi_n_team_e.png",
+    "roiFront": "572,220,135,40",
+    "roiBack": "522,185,266,105",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "队伍不存在"
   }
 ]

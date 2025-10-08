@@ -2,6 +2,7 @@
 # @author runhey
 # github https://github.com/runhey
 from datetime import timedelta, datetime
+
 from pydantic import BaseModel, Field
 from sympy.categories.baseclasses import Class
 from enum import Enum
@@ -9,7 +10,7 @@ from tasks.Component.GeneralBattle.config_general_battle import GeneralBattleCon
 from tasks.Component.SwitchSoul.switch_soul_config import SwitchSoulConfig
 
 from tasks.Component.config_scheduler import Scheduler
-from tasks.Component.config_base import ConfigBase
+from tasks.Component.config_base import ConfigBase ,DateTime
 
 
 
@@ -26,12 +27,13 @@ class Demon(str, Enum):
     M_XSW = "xsw"
     M_GSH = "gsh"
     M_RHF = "rhf"
+    M_RANDOM = "random"
 
 
 
 class DemonSealConfig(BaseModel):
    demon_current: Demon = Field(default=Demon.M_GSH, description='target')
-   last_run: datetime = Field(default=datetime.now(), description='last_run',deprecated = True)
+   last_run: DateTime = Field(default=DateTime.fromisoformat("2023-01-01 00:00:00"), description='last_run',deprecated = True)
    target :int = Field(default=10, description='target')
    today_count :int = Field(default=0, description='today_count')
 

@@ -563,6 +563,8 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
             self.screenshot()
             if self.is_in_room():
                 return True
+
+
             # 被秒开
             # https://github.com/runhey/OnmyojiAutoScript/issues/230
             if self.appear(GeneralBattleAssets.I_EXIT):
@@ -575,6 +577,8 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
                 continue
             if self.appear_then_click(self.I_I_ACCEPT, interval=1):
                 continue
+            # # 被邀请了 但是队伍不存在
+
         return True
 
     def wait_battle(self, wait_time: time) -> bool:
