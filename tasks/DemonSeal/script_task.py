@@ -37,14 +37,19 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
         new = datetime.now()
         count = con.today_count
         con.last_run =  DateTime.fromisoformat(new.strftime("%Y-%m-%d %H:%M:%S"))
+        logger.info([count, con.target])
 
-        if count >=con.target:
-            # 如果满了就改到明天
-            self.set_next_run(task='DemonSeal',target=  DateTime.fromisoformat( (new + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")), finish=False)
         # 判断上次执行是不是今天 是则计数，不是则重置
-        if last_run.date() != new.date():
-            con.today_count = 0
-
+        if last_run.date().day != new.date().day:
+            con.today_count = 1
+        else:
+            if count >= con.target:
+                # 如果满了就改到明天
+                self.set_next_run(task='DemonSeal', target=DateTime.fromisoformat(
+                    (new + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime(
+                        "%Y-%m-%d %H:%M:%S")), finish=False)
+                raise TaskEnd('DemonSeal')
+        logger.info([last_run.date(),new.date()])
 
 
         if con.demon_current == Demon.M_RANDOM:
@@ -137,21 +142,27 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
         check_timer.start()
         self.device.stuck_record_add('BATTLE_STATUS_S')
 
-        # 判断是否战斗过
+        # 判断是不是战斗中
         battle = False
+        # 判断是否战斗过-》用于判断是否没有再次战斗
+        battle_re = False
         accept_count = 0
+        battle_count = 0
         while 1:
             self.screenshot()
             # 如果被秒开进入战斗, 被秒开不支持开启buff
 
             accept = self.check_then_accept()
-            if battle:
-                # 判断是否出现队伍不存在 还有一个队伍已满的情况等截图
-
-                if self.appear(self.I_N_TEAM_E) :
+            # 如果战斗过 且 没有进入战斗
+            if battle_re and battle == False:
+                battle_count += 1
+                # 如果等待超过60次 则结束
+                if battle_count > 60:
+                    logger.hr('Battle timeout')
                     self.config.save()
                     self.set_next_run(task='DemonSeal', finish=False, success=True)
                     break
+
 
 
             # 战斗过 用来判断是不是没战斗了
@@ -160,7 +171,6 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
             if accept:
                 accept_count = 1
                 battle = False
-
                 # 如果被邀请过 但是没有战斗过
                 if not self.appear(self.I_M_CHECK):
                     break
@@ -185,13 +195,13 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
                 battle = True
                 accept_count = 1
                 con.today_count += 1
-
+                battle_count = 0
+                battle_re =  True
             # 如果进入房间
             elif self.is_in_room():
                 logger.info('开始战斗')
-
-                click_timer.clear()
-                check_timer.clear()
+                battle_re = True
+                click_timer = None
                 battle = True
                 accept_count = 1
                 con.today_count += 1
@@ -207,13 +217,14 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
                 logger.warning('It has waited for 240s , but the battle has not started.')
                 logger.warning('It will be waited for 240s and try again.')
                 self.screenshot()
-                self.ocr_appear_click(self.I_WAIT)
+                if self.appear_then_click(self.I_WAIT):
+                    self.appear_then_click(self.I_UI_CONFIRM, interval=1)
+                    self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=1)
                 click_timer = None
                 self.device.stuck_record_clear()
-                self.device.stuck_record_add('BATTLE_STATUS_S')
                 continue
 
-            if check_timer.reached():
+            if  check_timer.reached():
                 logger.warning('DemonSeal match timeout')
                 while 1:
                     self.screenshot()
@@ -233,6 +244,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, DemonSealAss
         self.set_next_run(task='DemonSeal', success=True, finish=True)
         raise TaskEnd('DemonSeal')
 
+    def battle_before(self):
 
 
     @cached_property
